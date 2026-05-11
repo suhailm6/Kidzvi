@@ -14,6 +14,7 @@ const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       // useNewUrlParser and useUnifiedTopology are defaults in Mongoose 6+
+      serverSelectionTimeoutMS: 5000,
     });
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
@@ -32,7 +33,7 @@ const connectDB = async () => {
     });
   } catch (error) {
     console.error(`❌ MongoDB connection failed: ${error.message}`);
-    process.exit(1); // Exit with failure
+    throw error;
   }
 };
 

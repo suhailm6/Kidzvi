@@ -47,10 +47,15 @@ const createActivityValidation = [
     .isInt({ min: 1 })
     .withMessage("Duration must be at least 1 minute."),
   body("points")
+    .optional()
     .isInt({ min: 0 })
     .withMessage("Points must be a non-negative number."),
-  body("instructions").trim().notEmpty().withMessage("Instructions are required."),
-  body("developmentGoal").trim().notEmpty().withMessage("Development goal is required."),
+  body("pointsValue")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Points must be a non-negative number."),
+  body("instructions").optional().trim(),
+  body("developmentGoal").optional().trim(),
 ];
 
 const assignActivityValidation = [

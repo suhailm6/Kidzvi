@@ -6,6 +6,7 @@ import { z } from "zod";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import * as authApi from "../../api/authApi";
+import GoogleSignInButton from "../../components/common/GoogleSignInButton";
 
 const schema = z
   .object({
@@ -24,7 +25,7 @@ const schema = z
   });
 
 const RegisterPage = () => {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState("");
 
@@ -49,6 +50,17 @@ const RegisterPage = () => {
       setServerError(
         err.response?.data?.message || "Registration failed. Please try again.",
       );
+    }
+  };
+
+  const handleGoogleLogin = async (credential) => {
+    setServerError("");
+    try {
+      const user = await loginWithGoogle(credential);
+      if (user?.role === "ADMIN") navigate("/admin/dashboard");
+      else navigate("/parent/dashboard");
+    } catch (err) {
+      setServerError(err.response?.data?.message || "Google login failed. Please try again.");
     }
   };
 
@@ -117,6 +129,20 @@ const RegisterPage = () => {
                 <span>⚠️</span>
                 {serverError}
               </motion.div>
+            )}
+
+            <GoogleSignInButton
+              onSuccess={handleGoogleLogin}
+              onError={setServerError}
+              text="signup_with"
+            />
+
+            {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+              <div className="my-5 flex items-center gap-3 text-xs text-gray-400">
+                <span className="h-px flex-1 bg-gray-200" />
+                or create with email
+                <span className="h-px flex-1 bg-gray-200" />
+              </div>
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

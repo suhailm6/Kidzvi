@@ -12,6 +12,7 @@ const router = express.Router();
 
 const {
   createReward,
+  getParentRewards,
   getRewards,
   updateReward,
   deleteReward,
@@ -47,6 +48,9 @@ const createRewardValidation = [
 
 /** POST /api/rewards — Create a new reward */
 router.post("/", createRewardValidation, validateRequest, createReward);
+
+/** GET /api/rewards — Get all rewards owned by parent */
+router.get("/", getParentRewards);
 
 /**
  * GET /api/rewards/claims/pending — Get all pending reward claims.

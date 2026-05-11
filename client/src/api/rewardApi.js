@@ -11,7 +11,7 @@ import api from "./axiosConfig";
 export const createReward = (data) => api.post("/rewards", data);
 
 /** Get rewards for a specific child */
-export const getRewards = (childId) => api.get(`/rewards/${childId}`);
+export const getRewards = (childId) => api.get(childId ? `/rewards/${childId}` : "/rewards");
 
 /** Update an existing reward */
 export const updateReward = (id, data) => api.put(`/rewards/${id}`, data);

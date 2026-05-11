@@ -63,6 +63,30 @@ const createReward = async (req, res, next) => {
 };
 
 /**
+ * @route   GET /api/rewards
+ * @desc    Get all active rewards created by the authenticated parent
+ * @access  Private (PARENT)
+ */
+const getParentRewards = async (req, res, next) => {
+  try {
+    const rewards = await Reward.find({
+      parentId: req.user._id,
+      isActive: true,
+    })
+      .populate("childId", "name age ageGroup")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: rewards.length,
+      data: rewards,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @route   GET /api/rewards/:childId
  * @desc    Get all active rewards available for a specific child
  * @access  Private (PARENT)
@@ -449,6 +473,7 @@ const completeClaim = async (req, res, next) => {
 
 module.exports = {
   createReward,
+  getParentRewards,
   getRewards,
   updateReward,
   deleteReward,

@@ -1,320 +1,427 @@
-# 🌟 Kidzvi — Child Activity, Reward Monitoring & Parental Control Platform
+# Kidzvi - Child Activity, Reward Monitoring and Parental Control Platform
 
-> **Kidzvi** is a MERN-stack child engagement platform that helps parents replace passive screen consumption with structured, age-appropriate learning, creativity, physical activities, responsibility tasks, and healthy reward monitoring.
+Kidzvi is a MERN-stack web application designed to help parents manage children's activities, assign meaningful tasks, approve completions, track progress, and manage rewards. The project focuses on replacing passive screen time with structured learning, creativity, responsibility, physical activities, and parent-approved rewards.
 
----
+This project was developed as a full-stack college project with a strong backend focus, including REST API design, authentication, authorization, database modelling, input validation, and secure parent-child data ownership checks.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Project Overview](#project-overview)
+- [Backend Highlights](#backend-highlights)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Running the App](#running-the-app)
+- [Backend Architecture](#backend-architecture)
+- [Database Models](#database-models)
 - [API Routes](#api-routes)
 - [User Roles](#user-roles)
-- [Features](#features)
-- [Seed Data](#seed-data)
+- [Setup Instructions](#setup-instructions)
+- [Environment Variables](#environment-variables)
+- [Google Login Setup](#google-login-setup)
+- [Security Features](#security-features)
+- [Verification](#verification)
 
----
+## Project Overview
 
-## 🎯 Project Overview
+Kidzvi allows parents to create child profiles, assign activities, approve completed tasks, award points, and configure reward systems. Children use a parent-managed dashboard to view missions, submit completions, track points, and claim rewards.
 
-Kidzvi solves a real problem: children spending excessive time on passive, low-quality digital content. Instead of just blocking content, Kidzvi **replaces** it with meaningful, structured activities.
+Core workflow:
 
-### Key Principles:
-- ✅ Time-boxed activities (no infinite scroll)
-- ✅ Parent-approved rewards
-- ✅ Age-appropriate content (3-5, 6-8, 9-12)
-- ✅ Progress tracking & analytics
-- ✅ Child safety by design (no public profiles, no ads)
+1. Parent registers or logs in.
+2. Parent creates child profiles.
+3. Parent assigns activities to a child.
+4. Child opens the child dashboard and submits completed missions.
+5. Parent approves or rejects the submitted activity.
+6. Approved activities award points and contribute to progress reports.
 
----
+## Backend Highlights
 
-## 🛠 Tech Stack
+The backend is the main system layer of this project. It handles authentication, authorization, database operations, business logic, validation, activity assignment, approval workflow, reward claims, and reports.
+
+Key backend features:
+
+- REST API built with Node.js and Express.js.
+- MongoDB database integration using Mongoose.
+- JWT-based authentication.
+- Password hashing using bcryptjs.
+- Google login support using Google Identity Services ID token verification.
+- Role-based route protection for Parent and Admin access.
+- Parent ownership checks to prevent unauthorized access to child data.
+- Activity assignment lifecycle from assigned to submitted to approved or rejected.
+- Reward creation, claiming, approval, rejection, and completion workflow.
+- Reporting endpoints for summaries, weekly activity, category distribution, and reward history.
+- Express-validator based request validation.
+- Helmet, CORS, rate limiting, and structured error handling.
+- Health endpoint with database connection status.
+
+## Tech Stack
 
 ### Backend
+
 | Technology | Purpose |
 |---|---|
-| Node.js + Express.js | REST API server |
-| MongoDB + Mongoose | Database & ODM |
-| JWT + bcryptjs | Authentication & security |
-| Helmet + CORS | Security headers |
-| Express Rate Limit | API protection |
-| Morgan | HTTP logging |
+| Node.js | Runtime environment |
+| Express.js | REST API framework |
+| MongoDB | NoSQL database |
+| Mongoose | ODM and schema modelling |
+| JSON Web Token | Authentication |
+| bcryptjs | Password hashing |
+| Google Auth Library | Google login token verification |
+| Express Validator | Request validation |
+| Helmet | Security headers |
+| CORS | Frontend-backend communication |
+| Express Rate Limit | API abuse protection |
+| Morgan | HTTP request logging |
 
 ### Frontend
+
 | Technology | Purpose |
 |---|---|
-| React 18 + Vite | UI framework & build tool |
+| React | User interface |
+| Vite | Development server and build tool |
 | React Router DOM | Client-side routing |
-| Tailwind CSS v4 | Utility-first styling |
-| Axios | HTTP requests |
-| React Hook Form + Zod | Form handling & validation |
-| Recharts | Charts & analytics |
-| Framer Motion | Animations |
+| Tailwind CSS | Styling |
+| Axios | API communication |
+| React Hook Form | Form management |
+| Zod | Frontend validation |
+| Recharts | Charts and reports |
+| Framer Motion | UI animation |
 
----
+## Project Structure
 
-## 📁 Project Structure
-
-```
+```text
 GP/
-├── server/                    # Backend (Node.js + Express)
+├── server/
 │   ├── src/
-│   │   ├── config/db.js       # MongoDB connection
-│   │   ├── controllers/       # Business logic (8 controllers)
-│   │   ├── middleware/        # Auth, role, error handlers
-│   │   ├── models/            # Mongoose models (10 models)
-│   │   ├── routes/            # API routes (8 route files)
-│   │   ├── utils/             # Helpers & engines
-│   │   └── app.js             # Express app setup
-│   ├── .env                   # Environment variables
-│   └── server.js              # Entry point
+│   │   ├── config/              # Database configuration
+│   │   ├── controllers/         # Backend business logic
+│   │   ├── middleware/          # Auth, role, validation and error middleware
+│   │   ├── models/              # Mongoose schemas
+│   │   ├── routes/              # Express route definitions
+│   │   ├── utils/               # Token, badge, points and helper logic
+│   │   └── app.js               # Express app setup
+│   ├── server.js                # Backend entry point
+│   ├── package.json
+│   └── .env.example
 │
-├── client/                    # Frontend (React + Vite)
+├── client/
 │   ├── src/
-│   │   ├── api/               # Axios API layer (5 files)
-│   │   ├── components/        # Reusable UI components
-│   │   ├── context/           # Auth context
-│   │   ├── layouts/           # Parent/Child/Admin layouts
-│   │   ├── pages/             # All 18 pages
-│   │   ├── routes/            # Route config & protection
-│   │   └── utils/             # Constants & helpers
-│   └── .env                   # Frontend env vars
+│   │   ├── api/                 # Axios API functions
+│   │   ├── components/          # Shared UI components
+│   │   ├── context/             # Authentication context
+│   │   ├── layouts/             # Parent, child and admin layouts
+│   │   ├── pages/               # Application pages
+│   │   ├── routes/              # Route protection and route config
+│   │   └── utils/               # Frontend helpers and constants
+│   ├── package.json
+│   └── .env.example
 │
 └── README.md
 ```
 
----
+## Backend Architecture
 
-## 🚀 Getting Started
+The backend follows a modular Express architecture:
 
-### Prerequisites
-- Node.js v18+ 
-- MongoDB (local or Atlas)
-- npm v8+
+| Layer | Responsibility |
+|---|---|
+| Routes | Define API endpoints and attach middleware |
+| Middleware | Authentication, role checks, request validation, error handling |
+| Controllers | Execute business logic and send responses |
+| Models | Define MongoDB schemas and relationships |
+| Utilities | Token generation, point calculation, badge awarding and helpers |
+| Config | Database connection setup |
 
-### 1. Clone the repository
+Important backend files:
 
-```bash
-git clone <repo-url>
-cd GP
-```
+| File | Purpose |
+|---|---|
+| `server/server.js` | Starts the Express server and connects MongoDB |
+| `server/src/app.js` | Registers middleware, routes, health checks and error handlers |
+| `server/src/config/db.js` | Handles MongoDB connection |
+| `server/src/middleware/authMiddleware.js` | Verifies JWT token and attaches current user |
+| `server/src/middleware/roleMiddleware.js` | Restricts routes by user role |
+| `server/src/middleware/validateRequest.js` | Returns validation errors from express-validator |
+| `server/src/controllers/authController.js` | Registration, login, Google login and profile logic |
+| `server/src/controllers/activityController.js` | Activity CRUD, assignment and child submission logic |
+| `server/src/controllers/approvalController.js` | Parent approval and rejection workflow |
+| `server/src/controllers/rewardController.js` | Reward and reward claim workflow |
+| `server/src/controllers/reportController.js` | Reports and analytics endpoints |
 
-### 2. Install Dependencies
+## Database Models
 
-**Backend:**
-```bash
-cd server
-npm install
-```
+| Model | Description |
+|---|---|
+| `User` | Parent and admin accounts, local or Google authentication |
+| `Child` | Child profile linked to a parent account |
+| `Activity` | Activity library item with category, age group, points and duration |
+| `AssignedActivity` | Activity assigned to a child by a parent |
+| `CompletedActivity` | Submitted activity waiting for approval or already reviewed |
+| `Reward` | Parent-created reward that children can claim |
+| `RewardClaim` | Child reward claim and parent approval status |
+| `Badge` | Badge earned by a child based on activity milestones |
+| `Notification` | System messages for parent workflow events |
+| `ParentSettings` | Parental control settings for a child |
 
-**Frontend:**
-```bash
-cd client
-npm install
-```
+## API Routes
 
----
+### Authentication - `/api/auth`
 
-## 🔐 Environment Variables
-
-### Backend (`server/.env`)
-
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/kidzvi
-JWT_SECRET=your_super_secret_jwt_key_here
-JWT_EXPIRES_IN=7d
-CLIENT_URL=http://localhost:5173
-NODE_ENV=development
-```
-
-### Frontend (`client/.env`)
-
-```env
-VITE_API_BASE_URL=http://localhost:5000/api
-```
-
----
-
-## ▶️ Running the App
-
-### Start Backend (Terminal 1)
-```bash
-cd server
-npm run dev
-```
-Server starts at: `http://localhost:5000`
-
-### Start Frontend (Terminal 2)
-```bash
-cd client
-npm run dev
-```
-App opens at: `http://localhost:5173`
-
----
-
-## 🗺 API Routes
-
-### Authentication (`/api/auth`)
 | Method | Route | Description |
 |---|---|---|
-| POST | `/register` | Register a new parent |
-| POST | `/login` | Login and get JWT |
-| GET | `/me` | Get current user |
-| POST | `/logout` | Logout |
+| POST | `/register` | Register a parent account |
+| POST | `/login` | Login using email and password |
+| POST | `/google` | Login or register using Google |
+| GET | `/me` | Get current authenticated user |
+| POST | `/logout` | Logout acknowledgement |
 
-### Parent (`/api/parents`)
+### Parent - `/api/parents`
+
 | Method | Route | Description |
 |---|---|---|
-| GET | `/dashboard` | Parent dashboard stats |
-| POST | `/children` | Create child profile |
-| GET | `/children` | List all children |
+| GET | `/dashboard` | Parent dashboard data |
+| POST | `/children` | Create a child profile |
+| GET | `/children` | List children owned by parent |
 | GET | `/children/:childId` | Get child details |
-| PUT | `/children/:childId` | Update child |
-| DELETE | `/children/:childId` | Deactivate child |
-| GET | `/reports/:childId` | Child progress report |
-| PUT | `/settings/:childId` | Update parental controls |
+| PUT | `/children/:childId` | Update child profile |
+| DELETE | `/children/:childId` | Deactivate child profile |
+| PUT | `/settings/:childId` | Update parental settings |
 
-### Activities (`/api/activities`)
+### Activities - `/api/activities`
+
 | Method | Route | Description |
 |---|---|---|
 | GET | `/` | Browse activity library |
 | POST | `/` | Create activity |
-| GET | `/:id` | Get activity |
+| GET | `/:id` | Get activity by ID |
 | PUT | `/:id` | Update activity |
-| DELETE | `/:id` | Delete activity |
-| POST | `/assign` | Assign to child |
-| GET | `/child/:childId` | Child's activities |
-| POST | `/:assignedId/submit` | Submit completion |
+| DELETE | `/:id` | Deactivate activity |
+| POST | `/assign` | Assign activity to child |
+| GET | `/child/:childId` | Get assigned activities for child |
+| POST | `/:assignedActivityId/submit` | Submit completed activity |
 
-### Approvals (`/api/approvals`)
+### Approvals - `/api/approvals`
+
 | Method | Route | Description |
 |---|---|---|
-| GET | `/pending` | Pending approvals |
-| PUT | `/activity/:id/approve` | Approve + award points |
-| PUT | `/activity/:id/reject` | Reject activity |
+| GET | `/pending` | Get submitted activities waiting for review |
+| PUT | `/activity/:completedActivityId/approve` | Approve and award points |
+| PUT | `/activity/:completedActivityId/reject` | Reject submission |
 
-### Rewards (`/api/rewards`)
+### Rewards - `/api/rewards`
+
 | Method | Route | Description |
 |---|---|---|
 | POST | `/` | Create reward |
-| GET | `/:childId` | Rewards for child |
+| GET | `/:childId` | Get rewards for child |
 | PUT | `/:rewardId` | Update reward |
 | DELETE | `/:rewardId` | Delete reward |
 | POST | `/:rewardId/claim` | Claim reward |
-| GET | `/claims/pending` | Pending claims |
-| PUT | `/claims/:id/approve` | Approve claim |
-| PUT | `/claims/:id/reject` | Reject claim |
-| PUT | `/claims/:id/complete` | Mark complete |
+| GET | `/claims/pending` | Get pending reward claims |
+| PUT | `/claims/:id/approve` | Approve reward claim |
+| PUT | `/claims/:id/reject` | Reject reward claim |
+| PUT | `/claims/:id/complete` | Mark reward as completed |
 
-### Reports (`/api/reports`)
+### Reports - `/api/reports`
+
 | Method | Route | Description |
 |---|---|---|
-| GET | `/child/:id/summary` | Summary stats |
-| GET | `/child/:id/weekly` | Weekly activity data |
-| GET | `/child/:id/category-distribution` | Category breakdown |
+| GET | `/child/:id/summary` | Activity summary |
+| GET | `/child/:id/weekly` | Weekly activity report |
+| GET | `/child/:id/category-distribution` | Activity category distribution |
 | GET | `/child/:id/rewards` | Reward history |
 
-### Admin (`/api/admin`)
+### Admin - `/api/admin`
+
 | Method | Route | Description |
 |---|---|---|
-| GET | `/users` | All platform users |
-| GET | `/activities` | All activities |
-| POST | `/activities` | Seed/create activity |
-| PUT | `/activities/:id` | Edit activity |
+| GET | `/users` | List platform users |
+| GET | `/activities` | List all activities |
+| POST | `/activities` | Seed or create activities |
+| PUT | `/activities/:id` | Update activity |
 | DELETE | `/activities/:id` | Delete activity |
 | GET | `/reports` | Platform analytics |
 
----
+## User Roles
 
-## 👥 User Roles
+### Parent
 
-### 🔵 Parent
-- Register and login independently
-- Create and manage child profiles
-- Browse activity library
-- Assign activities to children
-- Approve/reject completed activities
-- Create rewards and approve claims
-- View progress charts and reports
-- Configure parental controls per child
+- Registers and logs in using email/password or Google.
+- Creates and manages child profiles.
+- Assigns activities to children.
+- Reviews submitted activity completions.
+- Creates rewards and approves reward claims.
+- Views child reports and progress analytics.
+- Configures parental settings.
 
-### 🟡 Child
-- Access dashboard via parent-managed profile
-- View assigned missions
-- Submit activity completions with notes
-- Track points and badges
-- Browse and claim rewards
+### Child
 
-### 🔴 Admin
-- Full activity library management (CRUD)
-- Platform user management
-- Seed initial activity content
-- View platform-wide reports
+- Uses a parent-managed child dashboard.
+- Views assigned missions.
+- Submits completed activities.
+- Tracks points, badges and rewards.
 
----
+Current child access is parent-managed. Children do not currently have independent login accounts.
 
-## 🌱 Seed Data
+### Admin
 
-The admin can seed 4 starter activities:
-1. **Read a Short Story** (LANGUAGE, 6-8, 20 pts)
-2. **Draw Your Dream Animal** (CREATIVITY, 6-8, 25 pts)
-3. **20 Jumping Jacks** (PHYSICAL_ACTIVITY, 6-8, 15 pts)
-4. **Clean Your Study Table** (RESPONSIBILITY, 6-8, 20 pts)
+- Manages users.
+- Manages activity library content.
+- Views platform-level reports.
 
-Hit `POST /api/admin/activities/seed` to load them.
+## Setup Instructions
 
----
+### Prerequisites
 
-## 🏅 Badge System
+- Node.js v18 or newer
+- npm
+- MongoDB Atlas or local MongoDB
 
-Badges are automatically awarded when:
-- 🎨 **Creative Star** — 5 Creativity activities
-- 📚 **Bookworm** — 5 Language activities
-- 🏃 **Active Kid** — 5 Physical activities
-- 🧹 **Responsibility Hero** — 5 Responsibility activities
-- 🧠 **Brain Trainer** — 5 Math/Logic activities
-- 💖 **Empathy Star** — 3 Emotional Intelligence activities
-- 🌟 **First Mission** — Complete 1 activity
-- 🔟 **Activity Pro** — Complete 10 activities
-- 🏆 **Activity Master** — Complete 25 activities
-- 💎 **Points Champion** — Earn 500 points
-- 🔥 **Unstoppable** — Earn 1000 points
+### Install Backend Dependencies
 
----
+```bash
+cd server
+npm install
+```
 
-## 🛡 Security Features
+### Install Frontend Dependencies
 
-- JWT authentication with 7-day expiry
-- Password hashing (bcrypt, 12 rounds)
-- Role-based route protection
-- Parent ownership checks on all child data
-- Rate limiting (100 req/15min global, 10/15min on auth)
-- Helmet security headers
-- Input validation via express-validator
-- No passwords in API responses
-- CORS restricted to frontend origin
+```bash
+cd client
+npm install
+```
 
----
+### Start Backend
 
-## 📊 Development Phases
+```bash
+cd server
+npm run dev
+```
 
-| Phase | Status | Description |
-|---|---|---|
-| 1 | ✅ | Planning & Setup |
-| 2 | ✅ | Authentication |
-| 3 | ✅ | Child Profile Management |
-| 4 | ✅ | Activity Library |
-| 5 | ✅ | Activity Assignment & Completion |
-| 6 | ✅ | Reward System |
-| 7 | ✅ | Reports & Charts |
-| 8 | ✅ | UI Polish & Safety Review |
+Backend runs at:
 
----
+```text
+http://localhost:5000
+```
 
-*Built with ❤️ for Kidzvi — helping children grow through meaningful activities.*
+### Start Frontend
+
+```bash
+cd client
+npm run dev
+```
+
+Frontend runs at:
+
+```text
+http://localhost:5173
+```
+
+## Environment Variables
+
+### Backend - `server/.env`
+
+```env
+PORT=5000
+NODE_ENV=development
+MONGO_URI=mongodb://localhost:27017/kidzvi
+JWT_SECRET=your_secure_jwt_secret
+JWT_EXPIRES_IN=7d
+CLIENT_URL=http://localhost:5173
+GOOGLE_CLIENT_ID=your_google_oauth_web_client_id.apps.googleusercontent.com
+```
+
+### Frontend - `client/.env`
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+VITE_GOOGLE_CLIENT_ID=your_google_oauth_web_client_id.apps.googleusercontent.com
+```
+
+Do not commit real `.env` files because they may contain secrets or database credentials.
+
+## Google Login Setup
+
+Google sign-in requires a Google OAuth Web Client ID.
+
+Steps:
+
+1. Open Google Cloud Console.
+2. Create or select a project.
+3. Go to APIs and Services.
+4. Configure the OAuth consent screen.
+5. Create OAuth Client ID credentials.
+6. Choose application type: Web application.
+7. Add authorized JavaScript origin:
+
+```text
+http://localhost:5173
+```
+
+8. Copy the generated client ID into both env files:
+
+```env
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+VITE_GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+```
+
+The backend uses `GOOGLE_CLIENT_ID` to verify the Google ID token. The frontend uses `VITE_GOOGLE_CLIENT_ID` to render the Google login button.
+
+If `VITE_GOOGLE_CLIENT_ID` is missing, the Google button will not appear.
+
+## How To Assign Activities
+
+1. Login as a parent.
+2. Go to `Children` and create a child profile.
+3. Go to `Assign Activities`.
+4. Select a child.
+5. Select an activity from the activity list.
+6. Optionally set a due date and note.
+7. Click `Assign Activity`.
+
+The child can view assigned tasks at:
+
+```text
+/child/:childId/dashboard
+/child/:childId/missions
+```
+
+## Security Features
+
+- JWT authentication.
+- bcrypt password hashing.
+- Google ID token verification on backend.
+- Role-based route authorization.
+- Parent ownership checks for child data.
+- Request validation using express-validator.
+- Helmet security headers.
+- CORS configuration.
+- Rate limiting for API and authentication routes.
+- Password field removed from API responses.
+- Database status exposed through `/health`.
+
+## Verification
+
+Frontend checks:
+
+```bash
+cd client
+npm run lint
+npm run build
+```
+
+Backend syntax/load check:
+
+```bash
+cd server
+node -e "require('./src/app'); console.log('server app loaded')"
+```
+
+Health check:
+
+```text
+GET http://localhost:5000/health
+```
+
+## Conclusion
+
+Kidzvi demonstrates a complete MERN-stack application with practical backend design, secure authentication, database relationships, protected APIs, parent-child data ownership, activity workflows, reward management, and reporting features suitable for an academic full-stack project.

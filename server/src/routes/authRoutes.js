@@ -7,7 +7,7 @@ const express = require("express");
 const { body } = require("express-validator");
 const router = express.Router();
 
-const { register, login, getMe, logout } = require("../controllers/authController");
+const { register, login, googleLogin, getMe, logout } = require("../controllers/authController");
 const { protect } = require("../middleware/authMiddleware");
 const validateRequest = require("../middleware/validateRequest");
 
@@ -54,6 +54,12 @@ router.post("/register", registerValidation, validateRequest, register);
  * Authenticate and receive a JWT token.
  */
 router.post("/login", loginValidation, validateRequest, login);
+
+/**
+ * POST /api/auth/google
+ * Authenticate/register via Google Identity Services ID token.
+ */
+router.post("/google", body("credential").notEmpty().withMessage("Google credential is required."), validateRequest, googleLogin);
 
 /**
  * GET /api/auth/me

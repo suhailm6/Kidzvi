@@ -40,8 +40,7 @@ export const AuthProvider = ({ children }) => {
     fetchCurrentUser();
   }, [token]);
 
-  const login = useCallback(async (credentials) => {
-    const res = await authApi.login(credentials);
+  const handleAuthResponse = useCallback((res) => {
     const { token: newToken, user: newUser, data } = res.data;
     const userData = newUser || data?.user || data;
     const tokenValue = newToken || data?.token;
@@ -51,6 +50,16 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
     return userData;
   }, []);
+
+  const login = useCallback(async (credentials) => {
+    const res = await authApi.login(credentials);
+    return handleAuthResponse(res);
+  }, [handleAuthResponse]);
+
+  const loginWithGoogle = useCallback(async (credential) => {
+    const res = await authApi.googleLogin(credential);
+    return handleAuthResponse(res);
+  }, [handleAuthResponse]);
 
   const logout = useCallback(async () => {
     try {
@@ -73,6 +82,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         isLoading,
         login,
+        loginWithGoogle,
         logout,
         setUser,
       }}

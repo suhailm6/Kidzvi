@@ -19,6 +19,26 @@ const getOwnedChild = async (childId, parentId) => {
   return Child.findOne({ _id: childId, parentId, active: true });
 };
 
+const toClientActivity = (activity) => {
+  if (!activity) return activity;
+  const data = activity.toObject ? activity.toObject() : activity;
+  return { ...data, pointsValue: data.points };
+};
+
+const toClientAssignment = (assignment) => {
+  const data = assignment.toObject ? assignment.toObject() : assignment;
+  const statusMap = {
+    SUBMITTED: "PENDING_APPROVAL",
+    APPROVED: "COMPLETED",
+  };
+
+  return {
+    ...data,
+    status: statusMap[data.status] || data.status,
+    activity: toClientActivity(data.activityId),
+  };
+};
+
 // ─── Activity Library ──────────────────────────────────────────────────────────
 
 /**
@@ -59,7 +79,7 @@ const getActivities = async (req, res, next) => {
     res.status(200).json({
       success: true,
       count: activities.length,
-      data: activities,
+      data: activities.map(toClientActivity),
     });
   } catch (error) {
     next(error);
@@ -87,7 +107,7 @@ const getActivity = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: activity,
+      data: toClientActivity(activity),
     });
   } catch (error) {
     next(error);
@@ -109,6 +129,7 @@ const createActivity = async (req, res, next) => {
       difficulty,
       durationMinutes,
       points,
+      pointsValue,
       instructions,
       developmentGoal,
       requiresParentApproval,
@@ -122,9 +143,9 @@ const createActivity = async (req, res, next) => {
       ageGroup,
       difficulty: difficulty || "EASY",
       durationMinutes,
-      points,
-      instructions,
-      developmentGoal,
+      points: points ?? pointsValue,
+      instructions: instructions || description,
+      developmentGoal: developmentGoal || "General learning and healthy engagement",
       requiresParentApproval: requiresParentApproval !== undefined ? requiresParentApproval : true,
       requiresParentSupervision: requiresParentSupervision !== undefined ? requiresParentSupervision : false,
       createdBy: req.user._id,
@@ -133,7 +154,7 @@ const createActivity = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Activity created successfully.",
-      data: activity,
+      data: toClientActivity(activity),
     });
   } catch (error) {
     next(error);
@@ -169,13 +190,13 @@ const updateActivity = async (req, res, next) => {
 
     const updatableFields = [
       "title", "description", "category", "ageGroup", "difficulty",
-      "durationMinutes", "points", "instructions", "developmentGoal",
+      "durationMinutes", "points", "pointsValue", "instructions", "developmentGoal",
       "requiresParentApproval", "requiresParentSupervision", "isActive",
     ];
 
     updatableFields.forEach((field) => {
       if (req.body[field] !== undefined) {
-        activity[field] = req.body[field];
+        activity[field === "pointsValue" ? "points" : field] = req.body[field];
       }
     });
 
@@ -306,7 +327,7 @@ const assignActivity = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: `Activity "${activity.title}" assigned to ${child.name} successfully.`,
-      data: populated,
+      data: toClientAssignment(populated),
     });
   } catch (error) {
     next(error);
@@ -344,7 +365,7 @@ const getAssignedActivities = async (req, res, next) => {
     res.status(200).json({
       success: true,
       count: assignments.length,
-      data: assignments,
+      data: assignments.map(toClientAssignment),
     });
   } catch (error) {
     next(error);
@@ -360,7 +381,7 @@ const getAssignedActivities = async (req, res, next) => {
 const submitActivity = async (req, res, next) => {
   try {
     const { assignedActivityId } = req.params;
-    const { childNote } = req.body;
+    const { childNote, note } = req.body;
     const parentId = req.user._id;
 
     // Find the assigned activity
@@ -400,7 +421,7 @@ const submitActivity = async (req, res, next) => {
       childId: assigned.childId,
       activityId: assigned.activityId._id,
       assignedActivityId: assigned._id,
-      childNote: childNote || "",
+      childNote: childNote || note || "",
       status: "SUBMITTED",
     });
 

@@ -6,6 +6,9 @@
 
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
+const { OAuth2Client } = require("google-auth-library");
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
  * @route   POST /api/auth/register
@@ -103,6 +106,74 @@ const login = async (req, res, next) => {
 };
 
 /**
+ * @route   POST /api/auth/google
+ * @desc    Register/login a parent account using Google Identity Services
+ * @access  Public
+ */
+const googleLogin = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+
+    if (!process.env.GOOGLE_CLIENT_ID) {
+      return res.status(500).json({
+        success: false,
+        message: "Google login is not configured on the server.",
+      });
+    }
+
+    if (!credential) {
+      return res.status(400).json({
+        success: false,
+        message: "Google credential is required.",
+      });
+    }
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    if (!payload?.email_verified) {
+      return res.status(401).json({
+        success: false,
+        message: "Google email must be verified.",
+      });
+    }
+
+    const email = payload.email.toLowerCase().trim();
+    let user = await User.findOne({ email });
+
+    if (user) {
+      if (!user.googleId) {
+        user.googleId = payload.sub;
+        user.authProvider = user.authProvider || "google";
+        await user.save();
+      }
+    } else {
+      user = await User.create({
+        name: payload.name || email.split("@")[0],
+        email,
+        googleId: payload.sub,
+        authProvider: "google",
+        role: "PARENT",
+      });
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    res.status(200).json({
+      success: true,
+      message: "Google login successful.",
+      token,
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @route   GET /api/auth/me
  * @desc    Get the currently authenticated user's profile
  * @access  Private (requires valid JWT)
@@ -137,4 +208,4 @@ const logout = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, getMe, logout };
+module.exports = { register, login, googleLogin, getMe, logout };

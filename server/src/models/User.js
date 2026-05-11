@@ -24,8 +24,21 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required."],
+      required: function () {
+        return this.authProvider !== "google";
+      },
       minlength: [6, "Password must be at least 6 characters."],
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
     },
     role: {
       type: String,
@@ -45,17 +58,12 @@ const userSchema = new mongoose.Schema(
  * Pre-save hook: Hash password before saving if it has been modified.
  * Uses bcryptjs with 12 salt rounds for strong security.
  */
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   // Only hash if the password field was modified
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password")) return;
 
-  try {
-    const salt = await bcrypt.genSalt(12);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 /**

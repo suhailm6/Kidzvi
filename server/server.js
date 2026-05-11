@@ -20,9 +20,6 @@ const PORT = process.env.PORT || 5000;
  */
 const startServer = async () => {
   try {
-    // Connect to MongoDB
-    await connectDB();
-
     // Start the HTTP server
     const server = app.listen(PORT, () => {
       console.log(`
@@ -35,6 +32,12 @@ const startServer = async () => {
 ║  Health      : http://localhost:${PORT}/health${" ".repeat(16)}║
 ╚══════════════════════════════════════════════════════╝
       `);
+    });
+
+    // Connect after the API starts so the frontend gets a clear 503 instead of proxy 502.
+    connectDB().catch((error) => {
+      console.error("⚠️  API is running, but database-dependent routes will return 503 until MongoDB is reachable.");
+      console.error(`   ${error.message}`);
     });
 
     // ─── Graceful Shutdown ──────────────────────────────────────────────────────

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
+import GoogleSignInButton from "../../components/common/GoogleSignInButton";
 
 const schema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -12,7 +13,7 @@ const schema = z.object({
 });
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [serverError, setServerError] = useState("");
@@ -23,26 +24,40 @@ const LoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(schema) });
 
+  const goToDashboard = (user) => {
+    const from = location.state?.from?.pathname;
+    if (from && from !== "/login") {
+      navigate(from, { replace: true });
+    } else if (user?.role === "ADMIN") {
+      navigate("/admin/dashboard");
+    } else if (user?.role === "PARENT") {
+      navigate("/parent/dashboard");
+    } else if (user?.role === "CHILD") {
+      navigate(`/child/${user._id || user.id}/dashboard`);
+    } else {
+      navigate("/parent/dashboard");
+    }
+  };
+
   const onSubmit = async (data) => {
     setServerError("");
     try {
       const user = await login(data);
-      const from = location.state?.from?.pathname;
-      if (from && from !== "/login") {
-        navigate(from, { replace: true });
-      } else if (user?.role === "ADMIN") {
-        navigate("/admin/dashboard");
-      } else if (user?.role === "PARENT") {
-        navigate("/parent/dashboard");
-      } else if (user?.role === "CHILD") {
-        navigate(`/child/${user._id || user.id}/dashboard`);
-      } else {
-        navigate("/parent/dashboard");
-      }
+      goToDashboard(user);
     } catch (err) {
       setServerError(
         err.response?.data?.message || "Invalid email or password. Please try again."
       );
+    }
+  };
+
+  const handleGoogleLogin = async (credential) => {
+    setServerError("");
+    try {
+      const user = await loginWithGoogle(credential);
+      goToDashboard(user);
+    } catch (err) {
+      setServerError(err.response?.data?.message || "Google login failed. Please try again.");
     }
   };
 
@@ -112,6 +127,19 @@ const LoginPage = () => {
                 <span>⚠️</span>
                 {serverError}
               </motion.div>
+            )}
+
+            <GoogleSignInButton
+              onSuccess={handleGoogleLogin}
+              onError={setServerError}
+            />
+
+            {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+              <div className="my-5 flex items-center gap-3 text-xs text-gray-400">
+                <span className="h-px flex-1 bg-gray-200" />
+                or sign in with email
+                <span className="h-px flex-1 bg-gray-200" />
+              </div>
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

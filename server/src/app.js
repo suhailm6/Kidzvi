@@ -10,6 +10,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
+const mongoose = require("mongoose");
 
 // Route imports
 const authRoutes = require("./routes/authRoutes");
@@ -34,7 +35,11 @@ const app = express();
  * Helmet: Sets various HTTP security headers.
  * Protects against well-known web vulnerabilities.
  */
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+  })
+);
 
 /**
  * CORS: Allow requests from the configured client URL.
@@ -115,10 +120,24 @@ app.get("/health", (req, res) => {
   res.status(200).json({
     success: true,
     status: "healthy",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
     platform: "Kidzvi API",
     version: "1.0.0",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
+  });
+});
+
+app.get("/performance", (req, res) => {
+  res.status(204).end();
+});
+
+app.use("/api", (req, res, next) => {
+  if (mongoose.connection.readyState === 1) return next();
+
+  return res.status(503).json({
+    success: false,
+    message: "Database unavailable. Check MongoDB connection settings and Atlas IP allowlist.",
   });
 });
 
