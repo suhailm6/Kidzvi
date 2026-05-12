@@ -29,6 +29,10 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 // ─── Security Middleware ───────────────────────────────────────────────────────
 
 /**
@@ -45,9 +49,20 @@ app.use(
  * CORS: Allow requests from the configured client URL.
  * Supports credentials (Authorization headers) from the frontend.
  */
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
