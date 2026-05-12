@@ -94,7 +94,7 @@ const ChildrenList = () => {
       {children.length === 0 ? (
         <Card>
           <div className="text-center py-16">
-            <p className="text-6xl mb-4">👧</p>
+            <p className="text-sm font-semibold text-gray-400 mb-4">No children added</p>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">
               No children yet
             </h3>
@@ -116,7 +116,7 @@ const ChildrenList = () => {
               <Card hover className="relative">
                 <div className="flex items-start gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-3xl flex-shrink-0 shadow-md">
-                    {child.age <= 5 ? "🐣" : child.age <= 8 ? "🐥" : "🦅"}
+                    {child.name?.[0]?.toUpperCase() || "C"}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-bold text-gray-800 truncate">

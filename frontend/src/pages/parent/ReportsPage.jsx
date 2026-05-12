@@ -47,10 +47,10 @@ const ReportsPage = () => {
   }, [selectedChild]);
 
   const stats = [
-    { icon: "🎯", label: "Total Completed", value: summary?.totalCompleted ?? 0, color: "green" },
-    { icon: "⭐", label: "Total Points Earned", value: summary?.totalPoints ?? 0, color: "yellow" },
-    { icon: "🔥", label: "Current Streak", value: summary?.currentStreak ? `${summary.currentStreak}d` : "0d", color: "orange" },
-    { icon: "📊", label: "This Month", value: summary?.thisMonth ?? 0, color: "indigo" },
+    { icon: "check", label: "Total Completed", value: summary?.totalCompleted ?? 0, color: "green" },
+    { icon: "trophy", label: "Total Points Earned", value: summary?.totalPoints ?? 0, color: "yellow" },
+    { icon: "target", label: "Current Streak", value: summary?.currentStreak ? `${summary.currentStreak}d` : "0d", color: "orange" },
+    { icon: "chart", label: "This Month", value: summary?.thisMonth ?? 0, color: "indigo" },
   ];
 
   return (
@@ -89,7 +89,7 @@ const ReportsPage = () => {
             <Card title="Weekly Activity" subtitle="Completions per day" className="lg:col-span-3">
               {weekly.length === 0 ? (
                 <div className="text-center py-10 text-gray-400">
-                  <p className="text-3xl mb-2">📊</p>
+                  <p className="text-sm font-semibold mb-2">No chart data</p>
                   <p className="text-sm">No data available yet.</p>
                 </div>
               ) : (
@@ -109,7 +109,7 @@ const ReportsPage = () => {
             <Card title="By Category" subtitle="Distribution" className="lg:col-span-2">
               {categories.length === 0 ? (
                 <div className="text-center py-10 text-gray-400">
-                  <p className="text-3xl mb-2">🍕</p>
+                  <p className="text-sm font-semibold mb-2">No category data</p>
                   <p className="text-sm">No data available yet.</p>
                 </div>
               ) : (

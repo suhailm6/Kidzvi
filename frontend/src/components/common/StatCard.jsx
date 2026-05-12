@@ -27,9 +27,9 @@ const StatCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="bg-white/90 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/60 p-6 flex items-start gap-4 hover:-translate-y-0.5 hover:shadow-md transition-all"
+      className="bg-white/90 rounded-xl border border-slate-100 shadow-sm shadow-slate-200/60 p-6 flex items-start gap-4 hover:-translate-y-0.5 hover:shadow-md transition-all"
     >
-      <div className={`p-3 rounded-2xl ring-1 ${colorClasses}`}>
+      <div className={`p-3 rounded-xl ring-1 ${colorClasses}`}>
         <AppIcon name={icon} className="w-6 h-6" />
       </div>
       <div className="flex-1 min-w-0">

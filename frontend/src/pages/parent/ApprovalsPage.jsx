@@ -68,7 +68,7 @@ const ApprovalsPage = () => {
       {approvals.length === 0 ? (
         <Card>
           <div className="text-center py-16">
-            <p className="text-5xl mb-4">🎉</p>
+            <p className="text-sm font-semibold text-gray-400 mb-4">No pending approvals</p>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">All caught up!</h3>
             <p className="text-gray-400">No activities waiting for your approval.</p>
           </div>
@@ -108,7 +108,7 @@ const ApprovalsPage = () => {
                           </p>
                         </div>
                         <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">
-                          ⏳ Pending
+                          Pending
                         </div>
                       </div>
 
@@ -124,9 +124,9 @@ const ApprovalsPage = () => {
 
                       {/* Activity Points */}
                       <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
-                        <span>⭐ {approval.activity?.pointsValue || approval.pointsValue} pts to award</span>
+                        <span>{approval.activity?.pointsValue || approval.pointsValue} pts to award</span>
                         {approval.activity?.durationMinutes && (
-                          <span>⏱ {approval.activity.durationMinutes} min</span>
+                          <span>{approval.activity.durationMinutes} min</span>
                         )}
                       </div>
                     </div>
@@ -141,7 +141,7 @@ const ApprovalsPage = () => {
                       loading={processingId === (approval._id || approval.id)}
                       className="flex-1"
                     >
-                      ✅ Approve
+                      Approve
                     </Button>
                     <Button
                       variant="danger"
@@ -150,7 +150,7 @@ const ApprovalsPage = () => {
                       disabled={processingId === (approval._id || approval.id)}
                       className="flex-1"
                     >
-                      ❌ Reject
+                      Reject
                     </Button>
                   </div>
                 </div>

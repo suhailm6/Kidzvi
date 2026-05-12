@@ -1,111 +1,43 @@
-const paths = {
-  users: [
-    "M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2",
-    "M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
-    "M21 21v-2a4 4 0 0 0-3-3.87",
-    "M16 3.13a4 4 0 0 1 0 7.75",
-  ],
-  child: [
-    "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
-    "M5 21a7 7 0 0 1 14 0",
-    "M9 9h.01",
-    "M15 9h.01",
-  ],
-  target: [
-    "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20",
-    "M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12",
-    "M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4",
-  ],
-  clock: [
-    "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20",
-    "M12 6v6l4 2",
-  ],
-  trophy: [
-    "M8 21h8",
-    "M12 17v4",
-    "M7 4h10v6a5 5 0 0 1-10 0V4Z",
-    "M5 5H3v3a4 4 0 0 0 4 4",
-    "M19 5h2v3a4 4 0 0 1-4 4",
-  ],
-  pin: [
-    "M12 17v5",
-    "M9 3h6l1 7 3 3v2H5v-2l3-3 1-7Z",
-  ],
-  check: [
-    "M20 6 9 17l-5-5",
-  ],
-  gift: [
-    "M20 12v8H4v-8",
-    "M2 7h20v5H2z",
-    "M12 22V7",
-    "M12 7H7.5A2.5 2.5 0 1 1 12 4.5V7Z",
-    "M12 7h4.5A2.5 2.5 0 1 0 12 4.5V7Z",
-  ],
-  list: [
-    "M8 6h13",
-    "M8 12h13",
-    "M8 18h13",
-    "M3 6h.01",
-    "M3 12h.01",
-    "M3 18h.01",
-  ],
-  chart: [
-    "M4 19V5",
-    "M4 19h16",
-    "M8 16v-4",
-    "M12 16V8",
-    "M16 16v-6",
-  ],
-  home: [
-    "M3 11.5 12 4l9 7.5",
-    "M5 10.5V20h14v-9.5",
-    "M9 20v-6h6v6",
-  ],
-  settings: [
-    "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6",
-    "M19.4 15a1.7 1.7 0 0 0 .34 1.87l.04.05a2 2 0 0 1-2.83 2.83l-.05-.04a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.08a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.05.04a2 2 0 0 1-2.83-2.83l.04-.05A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.08a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.04-.05a2 2 0 0 1 2.83-2.83l.05.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.08a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.05-.04a2 2 0 0 1 2.83 2.83l-.04.05A1.7 1.7 0 0 0 19.4 9c.2.6.79 1 1.55 1H21a2 2 0 0 1 0 4h-.08a1.7 1.7 0 0 0-1.52 1Z",
-  ],
-  shield: [
-    "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z",
-    "M9 12l2 2 4-4",
-  ],
-  badge: [
-    "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z",
-    "M9 14l-1 7 4-2 4 2-1-7",
-  ],
-  sparkle: [
-    "M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z",
-    "M19 3v4",
-    "M21 5h-4",
-    "M5 17v4",
-    "M7 19H3",
-  ],
-  logout: [
-    "M10 17l5-5-5-5",
-    "M15 12H3",
-    "M21 19V5a2 2 0 0 0-2-2h-6",
-  ],
+import {
+  Award,
+  BarChart3,
+  Check,
+  Clock3,
+  Gift,
+  Home,
+  ListChecks,
+  LogOut,
+  MapPin,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  Target,
+  UserRound,
+  UsersRound,
+} from "lucide-react";
+
+const icons = {
+  badge: Award,
+  chart: BarChart3,
+  check: Check,
+  child: UserRound,
+  clock: Clock3,
+  gift: Gift,
+  home: Home,
+  list: ListChecks,
+  logout: LogOut,
+  pin: MapPin,
+  settings: SlidersHorizontal,
+  shield: ShieldCheck,
+  sparkle: Sparkles,
+  target: Target,
+  trophy: Award,
+  users: UsersRound,
 };
 
 const AppIcon = ({ name, className = "w-5 h-5", strokeWidth = 2 }) => {
-  const iconPaths = paths[name] || paths.target;
-
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={strokeWidth}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      {iconPaths.map((d) => (
-        <path key={d} d={d} />
-      ))}
-    </svg>
-  );
+  const Icon = icons[name] || Target;
+  return <Icon className={className} strokeWidth={strokeWidth} aria-hidden="true" />;
 };
 
 export default AppIcon;

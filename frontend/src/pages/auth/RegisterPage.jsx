@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import * as authApi from "../../api/authApi";
 import GoogleSignInButton from "../../components/common/GoogleSignInButton";
+import AppIcon from "../../components/common/AppIcon";
 
 const schema = z
   .object({
@@ -73,7 +74,9 @@ const RegisterPage = () => {
           animate={{ opacity: 1, x: 0 }}
           className="max-w-md text-center"
         >
-          <div className="text-7xl mb-8">🎉</div>
+          <div className="mx-auto mb-8 w-16 h-16 rounded-xl bg-white/10 ring-1 ring-white/20 flex items-center justify-center">
+            <AppIcon name="sparkle" className="w-8 h-8" />
+          </div>
           <h1 className="text-4xl font-bold mb-4">Join Kidzvi Today!</h1>
           <p className="text-lg text-purple-200 leading-relaxed mb-10">
             Start your family's journey toward meaningful activities and healthy
@@ -81,14 +84,14 @@ const RegisterPage = () => {
           </p>
           <div className="space-y-4 text-left">
             {[
-              "✅ Free to get started",
-              "✅ Add unlimited children",
-              "✅ 100+ curated activities",
-              "✅ Full parental control",
-              "✅ Beautiful reward system",
+              "Free to get started",
+              "Add unlimited children",
+              "100+ curated activities",
+              "Full parental control",
+              "Structured reward system",
             ].map((item) => (
               <p key={item} className="text-purple-100 font-medium">
-                {item}
+                <span className="inline-flex items-center gap-2"><AppIcon name="check" className="w-4 h-4" />{item}</span>
               </p>
             ))}
           </div>
@@ -105,7 +108,7 @@ const RegisterPage = () => {
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-6">
             <Link to="/" className="inline-flex items-center gap-2">
-              <span className="text-3xl">🌟</span>
+              <AppIcon name="sparkle" className="w-7 h-7 text-indigo-600" />
               <span className="text-2xl font-bold text-indigo-600">Kidzvi</span>
             </Link>
           </div>
@@ -126,7 +129,7 @@ const RegisterPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-5 text-sm flex items-center gap-2"
               >
-                <span>⚠️</span>
+                <AppIcon name="clock" className="w-4 h-4 shrink-0" />
                 {serverError}
               </motion.div>
             )}

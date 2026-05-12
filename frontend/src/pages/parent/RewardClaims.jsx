@@ -13,12 +13,12 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import { formatDateTime } from "../../utils/helpers";
 
 const REWARD_TYPE_ICONS = {
-  FAMILY: "👨‍👩‍👧",
-  PHYSICAL: "🎁",
-  CREATIVE: "🎨",
-  TOY: "🧸",
-  DIGITAL: "📱",
-  OTHER: "⭐",
+  FAMILY: "Family",
+  PHYSICAL: "Physical",
+  CREATIVE: "Creative",
+  TOY: "Reward",
+  DIGITAL: "Digital",
+  OTHER: "Other",
 };
 
 const RewardClaims = () => {
@@ -71,7 +71,7 @@ const RewardClaims = () => {
       {claims.length === 0 ? (
         <Card>
           <div className="text-center py-16">
-            <p className="text-5xl mb-4">🏆</p>
+            <p className="text-sm font-semibold text-gray-400 mb-4">No pending claims</p>
             <h3 className="text-lg font-semibold text-gray-700 mb-2">No pending claims</h3>
             <p className="text-gray-400">Your children haven't requested any rewards yet.</p>
           </div>
@@ -94,7 +94,7 @@ const RewardClaims = () => {
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center text-2xl flex-shrink-0">
-                      {REWARD_TYPE_ICONS[claim.reward?.rewardType] || "🎁"}
+                      {REWARD_TYPE_ICONS[claim.reward?.rewardType] || "Reward"}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
@@ -123,7 +123,7 @@ const RewardClaims = () => {
                       </div>
 
                       <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
-                        <span>⭐ {claim.reward?.pointsRequired || claim.pointsRequired} pts</span>
+                        <span>{claim.reward?.pointsRequired || claim.pointsRequired} pts</span>
                         <span>Type: {claim.reward?.rewardType || claim.rewardType}</span>
                       </div>
 
@@ -136,7 +136,7 @@ const RewardClaims = () => {
                               onClick={() => handleAction(id, "approve")}
                               loading={processingId === id}
                             >
-                              ✅ Approve
+                              Approve
                             </Button>
                             <Button
                               variant="danger"
@@ -144,7 +144,7 @@ const RewardClaims = () => {
                               onClick={() => setRejectModal(claim)}
                               disabled={processingId === id}
                             >
-                              ❌ Reject
+                              Reject
                             </Button>
                           </>
                         )}
@@ -155,7 +155,7 @@ const RewardClaims = () => {
                             onClick={() => handleAction(id, "complete")}
                             loading={processingId === id}
                           >
-                            🎉 Mark as Given
+                            Mark as Given
                           </Button>
                         )}
                       </div>

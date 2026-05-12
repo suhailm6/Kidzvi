@@ -93,7 +93,7 @@ const AssignActivities = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2"
         >
-          <span>✅</span> Activity assigned successfully!
+          Activity assigned successfully.
         </motion.div>
       )}
 
@@ -244,7 +244,7 @@ const AssignActivities = () => {
                         </p>
                       </div>
                       {isSelected && (
-                        <span className="text-indigo-600 flex-shrink-0">✓</span>
+                        <span className="text-indigo-600 flex-shrink-0 text-xs font-semibold">Selected</span>
                       )}
                     </button>
                   );

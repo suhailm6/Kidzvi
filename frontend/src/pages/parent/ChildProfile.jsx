@@ -50,7 +50,7 @@ const ChildProfile = () => {
       <Card>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-4xl shadow-lg flex-shrink-0">
-            {child.age <= 5 ? "🐣" : child.age <= 8 ? "🐥" : "🦅"}
+            {child.name?.[0]?.toUpperCase() || "C"}
           </div>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-gray-800">{child.name}</h1>
@@ -59,15 +59,15 @@ const ChildProfile = () => {
             </p>
             <div className="flex flex-wrap gap-3 mt-3">
               <div className="flex items-center gap-1.5 bg-yellow-50 px-3 py-1.5 rounded-xl">
-                <span>⭐</span>
+                <span>Points</span>
                 <span className="text-sm font-bold text-yellow-700">{child.points || 0} Points</span>
               </div>
               <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-xl">
-                <span>✅</span>
+                <span>Done</span>
                 <span className="text-sm font-bold text-green-700">{completedCount} Completed</span>
               </div>
               <div className="flex items-center gap-1.5 bg-orange-50 px-3 py-1.5 rounded-xl">
-                <span>⏳</span>
+                <span>Pending</span>
                 <span className="text-sm font-bold text-orange-700">{pendingCount} Pending</span>
               </div>
             </div>
@@ -148,7 +148,7 @@ const ChildProfile = () => {
           <Card title="All Assigned Activities">
             {activities.length === 0 ? (
               <div className="text-center py-10">
-                <p className="text-3xl mb-3">📋</p>
+                <p className="text-sm font-semibold text-gray-400 mb-3">No activities assigned</p>
                 <p className="text-gray-400">No activities assigned to {child.name} yet.</p>
                 <Link to="/parent/assign-activities" className="mt-3 inline-block text-indigo-600 text-sm font-medium hover:underline">
                   Assign an activity →
@@ -179,7 +179,7 @@ const ChildProfile = () => {
         {activeTab === "Progress" && (
           <Card title="Progress Overview">
             <div className="text-center py-10">
-              <p className="text-5xl mb-4">📈</p>
+              <p className="text-sm font-semibold text-gray-400 mb-4">Progress details</p>
               <p className="text-gray-500">Detailed progress charts are available in</p>
               <Link to="/parent/reports" className="text-indigo-600 font-medium hover:underline">
                 Reports & Analytics →

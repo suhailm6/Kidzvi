@@ -1,13 +1,22 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
+import { getChild } from "../api/parentApi";
 import AppIcon from "../components/common/AppIcon";
 
 const ChildLayout = ({ children }) => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { childId } = useParams();
+  const [child, setChild] = useState(null);
+
+  useEffect(() => {
+    getChild(childId)
+      .then((r) => setChild(r.data.data || r.data.child || r.data || null))
+      .catch(() => {});
+  }, [childId]);
 
   const navItems = [
     { label: "Home", icon: "home", path: `/child/${childId}/dashboard` },
@@ -16,20 +25,27 @@ const ChildLayout = ({ children }) => {
     { label: "Badges", icon: "badge", path: `/child/${childId}/badges` },
   ];
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
+  const handleExit = () => {
+    if (user?.role === "PARENT") {
+      navigate("/parent/dashboard");
+    } else if (user?.role === "ADMIN") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/");
+    }
   };
 
+  const brandPath = user?.role === "PARENT" ? "/parent/dashboard" : user?.role === "ADMIN" ? "/admin/dashboard" : "/";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* Top Bar */}
       <header className="bg-gradient-to-r from-purple-500 to-indigo-600 shadow-lg">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo + Back */}
           <div className="flex items-center gap-3">
-            <Link to={`/child/${childId}/dashboard`} className="text-2xl font-bold text-white flex items-center gap-2">
-              <span className="w-9 h-9 rounded-2xl bg-white/20 text-white flex items-center justify-center ring-1 ring-white/20">
+            <Link to={brandPath} className="text-2xl font-bold text-white flex items-center gap-2">
+              <span className="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center ring-1 ring-white/20">
                 <AppIcon name="sparkle" className="w-5 h-5" />
               </span>
               <span className="hidden sm:block">Kidzvi</span>
@@ -38,7 +54,7 @@ const ChildLayout = ({ children }) => {
 
           {/* Points Display */}
           <div className="flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5">
-            <span className="text-yellow-300 text-xl">⭐</span>
+            <AppIcon name="trophy" className="w-4 h-4 text-yellow-200" />
             <span className="text-white font-bold text-lg">
               {user?.points ?? 0}
             </span>
@@ -48,10 +64,10 @@ const ChildLayout = ({ children }) => {
           {/* Child Name + Logout */}
           <div className="flex items-center gap-3">
             <span className="text-white font-semibold hidden sm:block">
-              Hi, {user?.name?.split(" ")[0] || "Friend"}! 👋
+              Hi, {(child?.name || user?.name || "Friend").split(" ")[0]}
             </span>
             <button
-              onClick={handleLogout}
+              onClick={handleExit}
               className="bg-white/20 hover:bg-white/30 text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
             >
               Exit
@@ -100,7 +116,7 @@ const ChildLayout = ({ children }) => {
 
       {/* Footer */}
       <footer className="text-center py-4 text-gray-400 text-xs">
-        Kidzvi — Keep going, you're doing great! 🚀
+        Kidzvi - Keep going, you're doing great.
       </footer>
     </div>
   );

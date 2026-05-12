@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getChildActivities, submitActivity } from "../../api/activityApi";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 import { getCategoryIcon, getDifficultyIcon, formatDate } from "../../utils/helpers";
+import AppIcon from "../../components/common/AppIcon";
 
 const STATUS_TABS = ["Active", "Pending", "Completed"];
 
@@ -55,7 +56,7 @@ const ChildMissions = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-black text-gray-800">🎯 My Missions</h1>
+      <h1 className="text-3xl font-black text-gray-800">My Missions</h1>
 
       {/* Tabs */}
       <div className="flex gap-2">
@@ -93,7 +94,7 @@ const ChildMissions = () => {
             exit={{ opacity: 0 }}
             className="bg-green-50 border-2 border-green-300 rounded-2xl p-4 text-center"
           >
-            <p className="text-3xl mb-1">🎉</p>
+            <AppIcon name="check" className="w-8 h-8 mx-auto mb-2 text-green-600" />
             <p className="text-xl font-bold text-green-700">Awesome job!</p>
             <p className="text-green-600">Your mission has been sent to your parent for review!</p>
           </motion.div>
@@ -104,7 +105,7 @@ const ChildMissions = () => {
       {tabActivities[activeTab].length === 0 ? (
         <div className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-sm">
           <p className="text-5xl mb-4">
-            {activeTab === "Active" ? "🎯" : activeTab === "Pending" ? "⏳" : "🏆"}
+            {activeTab === "Active" ? "Active" : activeTab === "Pending" ? "Pending" : "Done"}
           </p>
           <p className="text-2xl font-bold text-gray-700 mb-2">
             {activeTab === "Active" ? "No missions yet!" :
@@ -145,7 +146,7 @@ const ChildMissions = () => {
                         <span className="text-gray-400">⏱ {mission.activity?.durationMinutes} min</span>
                         <span>{getDifficultyIcon(mission.activity?.difficulty)} {mission.activity?.difficulty}</span>
                         {mission.dueDate && (
-                          <span className="text-gray-400">📅 Due: {formatDate(mission.dueDate)}</span>
+                          <span className="text-gray-400">Due: {formatDate(mission.dueDate)}</span>
                         )}
                       </div>
                       {mission.parentNote && (
@@ -165,7 +166,7 @@ const ChildMissions = () => {
                           onClick={() => setExpandedId(id)}
                           className="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black text-lg py-3 rounded-2xl transition-all shadow-md hover:shadow-lg"
                         >
-                          🙋 I Finished This!
+                          I Finished This
                         </button>
                       ) : (
                         <motion.div
@@ -176,7 +177,7 @@ const ChildMissions = () => {
                           <textarea
                             value={submissionNote}
                             onChange={(e) => setSubmissionNote(e.target.value)}
-                            placeholder="Tell your parent what you did! (optional but they'll love it 😊)"
+                            placeholder="Tell your parent what you did. Optional, but helpful."
                             rows={3}
                             className="w-full px-4 py-3 rounded-2xl border-2 border-indigo-200 focus:outline-none focus:border-indigo-400 text-sm resize-none"
                           />
@@ -192,7 +193,7 @@ const ChildMissions = () => {
                               disabled={submittingId === id}
                               className="flex-1 bg-green-500 hover:bg-green-600 disabled:opacity-60 text-white font-black py-3 rounded-2xl transition-colors"
                             >
-                              {submittingId === id ? "Sending... ✈️" : "Submit! 🚀"}
+                              {submittingId === id ? "Sending..." : "Submit"}
                             </button>
                           </div>
                         </motion.div>
@@ -213,7 +214,7 @@ const ChildMissions = () => {
                   {/* Status for Completed */}
                   {activeTab === "Completed" && (
                     <div className="mt-4 p-3 bg-green-50 rounded-2xl border border-green-200 text-center">
-                      <p className="text-green-700 font-bold">✅ Completed! +{mission.activity?.pointsValue} points earned!</p>
+                      <p className="text-green-700 font-bold">Completed. +{mission.activity?.pointsValue} points earned.</p>
                     </div>
                   )}
                 </div>

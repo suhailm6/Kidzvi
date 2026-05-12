@@ -6,6 +6,7 @@ import { z } from "zod";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import GoogleSignInButton from "../../components/common/GoogleSignInButton";
+import AppIcon from "../../components/common/AppIcon";
 
 const schema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -71,7 +72,9 @@ const LoginPage = () => {
           transition={{ duration: 0.6 }}
           className="max-w-md text-center"
         >
-          <div className="text-7xl mb-8">🌟</div>
+          <div className="mx-auto mb-8 w-16 h-16 rounded-xl bg-white/10 ring-1 ring-white/20 flex items-center justify-center">
+            <AppIcon name="sparkle" className="w-8 h-8" />
+          </div>
           <h1 className="text-4xl font-bold mb-4">Welcome back!</h1>
           <p className="text-lg text-indigo-200 leading-relaxed">
             Sign in to continue managing your children's activities, track
@@ -80,13 +83,13 @@ const LoginPage = () => {
 
           <div className="mt-12 grid grid-cols-2 gap-4 text-left">
             {[
-              { icon: "🎯", text: "Track Missions" },
-              { icon: "🏆", text: "Manage Rewards" },
-              { icon: "📊", text: "View Reports" },
-              { icon: "⚙️", text: "Set Controls" },
+              { icon: "target", text: "Track Missions" },
+              { icon: "gift", text: "Manage Rewards" },
+              { icon: "chart", text: "View Reports" },
+              { icon: "settings", text: "Set Controls" },
             ].map((item) => (
               <div key={item.text} className="flex items-center gap-3 bg-white/10 rounded-xl p-3">
-                <span className="text-xl">{item.icon}</span>
+                <AppIcon name={item.icon} className="w-5 h-5" />
                 <span className="text-sm font-medium">{item.text}</span>
               </div>
             ))}
@@ -105,7 +108,7 @@ const LoginPage = () => {
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
             <Link to="/" className="inline-flex items-center gap-2">
-              <span className="text-3xl">🌟</span>
+              <AppIcon name="sparkle" className="w-7 h-7 text-indigo-600" />
               <span className="text-2xl font-bold text-indigo-600">Kidzvi</span>
             </Link>
           </div>
@@ -124,7 +127,7 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-6 text-sm flex items-center gap-2"
               >
-                <span>⚠️</span>
+                <AppIcon name="clock" className="w-4 h-4 shrink-0" />
                 {serverError}
               </motion.div>
             )}

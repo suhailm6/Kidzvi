@@ -280,7 +280,7 @@ const ParentDashboard = () => {
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-3xl mb-3">📋</p>
+            <p className="text-sm font-semibold text-gray-400 mb-3">No recent activity</p>
             <p className="text-gray-400 text-sm">No recent activity yet.</p>
           </div>
         )}

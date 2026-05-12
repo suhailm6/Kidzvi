@@ -201,7 +201,7 @@ const ActivitiesPage = () => {
         <LoadingSpinner />
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
-          <p className="text-4xl mb-4">🔍</p>
+          <p className="text-sm font-semibold text-gray-400 mb-4">No matching activities</p>
           <p className="text-gray-500 font-medium">
             No activities match your filters.
           </p>
@@ -252,9 +252,9 @@ const ActivitiesPage = () => {
               </p>
               <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-50">
                 <div className="flex items-center gap-3 text-xs text-gray-400">
-                  <span>⭐ {activity.pointsValue} pts</span>
-                  <span>⏱ {activity.durationMinutes} min</span>
-                  <span>👶 {activity.ageGroup}</span>
+                  <span>{activity.pointsValue} pts</span>
+                  <span>{activity.durationMinutes} min</span>
+                  <span>Age {activity.ageGroup}</span>
                 </div>
                 <Link
                   to="/parent/assign-activities"

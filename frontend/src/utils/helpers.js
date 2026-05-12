@@ -25,23 +25,23 @@ export const getAgeGroup = (age) => {
 };
 
 export const getCategoryIcon = (category) => {
-  const icons = {
-    LANGUAGE: "📚",
-    MATH_LOGIC: "🔢",
-    CREATIVITY: "🎨",
-    MEMORY: "🧠",
-    EMOTIONAL_INTELLIGENCE: "❤️",
-    PHYSICAL_ACTIVITY: "🏃",
-    RESPONSIBILITY: "⭐",
-    FAMILY_BONDING: "👨‍👩‍👧",
-    GENERAL_LEARNING: "💡",
+  const labels = {
+    LANGUAGE: "LA",
+    MATH_LOGIC: "ML",
+    CREATIVITY: "CR",
+    MEMORY: "ME",
+    EMOTIONAL_INTELLIGENCE: "EI",
+    PHYSICAL_ACTIVITY: "PA",
+    RESPONSIBILITY: "RE",
+    FAMILY_BONDING: "FB",
+    GENERAL_LEARNING: "GL",
   };
-  return icons[category] || "📌";
+  return labels[category] || "AC";
 };
 
 export const getDifficultyIcon = (difficulty) => {
-  const icons = { EASY: "🟢", MEDIUM: "🟡", HARD: "🔴" };
-  return icons[difficulty] || "⚪";
+  const labels = { EASY: "Easy", MEDIUM: "Medium", HARD: "Hard" };
+  return labels[difficulty] || "Level";
 };
 
 export const getPointsColor = (points) => {

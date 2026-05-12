@@ -130,7 +130,7 @@ const SettingsPage = () => {
                   }`}
                 >
                   <span>
-                    {child.age <= 5 ? "🐣" : child.age <= 8 ? "🐥" : "🦅"}
+                    {child.name?.[0]?.toUpperCase() || "C"}
                   </span>
                   {child.name}
                 </button>
@@ -173,7 +173,7 @@ const SettingsPage = () => {
                       {cat.replace(/_/g, " ")}
                     </span>
                     <span className="ml-auto text-xs">
-                      {isAllowed ? "✅" : "🚫"}
+                      {isAllowed ? "Allowed" : "Blocked"}
                     </span>
                   </button>
                 );
@@ -283,7 +283,7 @@ const SettingsPage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="text-sm text-green-600 font-medium"
               >
-                ✅ Settings saved!
+                Settings saved.
               </motion.span>
             )}
           </div>

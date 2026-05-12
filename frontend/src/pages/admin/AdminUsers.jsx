@@ -52,12 +52,12 @@ const AdminUsers = () => {
       {/* Summary */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { role: "ADMIN", icon: "🔑", color: "bg-red-50 border-red-200 text-red-700" },
-          { role: "PARENT", icon: "👨‍👩‍👧", color: "bg-blue-50 border-blue-200 text-blue-700" },
-          { role: "CHILD", icon: "👦", color: "bg-green-50 border-green-200 text-green-700" },
+          { role: "ADMIN", icon: "Admin", color: "bg-red-50 border-red-200 text-red-700" },
+          { role: "PARENT", icon: "Parent", color: "bg-blue-50 border-blue-200 text-blue-700" },
+          { role: "CHILD", icon: "Child", color: "bg-green-50 border-green-200 text-green-700" },
         ].map(({ role, icon, color }) => (
           <div key={role} className={`${color} border rounded-2xl p-4 text-center`}>
-            <p className="text-2xl mb-1">{icon}</p>
+            <p className="text-xs font-bold uppercase tracking-wide mb-1">{icon}</p>
             <p className="text-2xl font-bold">{roleCounts[role] || 0}</p>
             <p className="text-xs font-semibold">{role}S</p>
           </div>

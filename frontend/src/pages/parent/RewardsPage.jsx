@@ -20,12 +20,12 @@ const schema = z.object({
 });
 
 const REWARD_TYPE_ICONS = {
-  FAMILY: "👨‍👩‍👧",
-  PHYSICAL: "🎁",
-  CREATIVE: "🎨",
-  TOY: "🧸",
-  DIGITAL: "📱",
-  OTHER: "⭐",
+  FAMILY: "Family",
+  PHYSICAL: "Physical",
+  CREATIVE: "Creative",
+  TOY: "Reward",
+  DIGITAL: "Digital",
+  OTHER: "Other",
 };
 
 const RewardsPage = () => {
@@ -93,7 +93,7 @@ const RewardsPage = () => {
       {rewards.length === 0 ? (
         <Card>
           <div className="text-center py-16">
-            <p className="text-5xl mb-4">🎁</p>
+            <p className="text-sm font-semibold text-gray-400 mb-4">No rewards created</p>
             <h3 className="text-lg font-semibold text-gray-700 mb-2">No rewards yet</h3>
             <p className="text-gray-400 mb-6">Create rewards your children can work toward.</p>
             <Button onClick={() => setModalOpen(true)}>Create First Reward</Button>

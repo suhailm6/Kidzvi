@@ -22,15 +22,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 shadow-sm">
+    <nav className="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <span className="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-sm shadow-indigo-200">
+            <span className="w-9 h-9 rounded-lg bg-slate-950 text-white flex items-center justify-center">
               <AppIcon name="sparkle" className="w-5 h-5" />
             </span>
-            <span className="text-xl font-bold text-indigo-600">Kidzvi</span>
+            <span className="text-xl font-extrabold tracking-tight text-slate-950">Kidzvi</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -39,7 +39,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors"
+                className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors"
               >
                 {link.label}
               </a>
@@ -51,7 +51,7 @@ const Navbar = () => {
             {isAuthenticated ? (
               <Link
                 to={getDashboardLink()}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                className="bg-slate-950 hover:bg-black text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
               >
                 Dashboard
               </Link>
@@ -59,13 +59,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors px-3 py-2"
+                  className="text-sm font-semibold text-slate-700 hover:text-slate-950 transition-colors px-3 py-2"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                  className="bg-slate-950 hover:bg-black text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
                 >
                   Get Started
                 </Link>
@@ -76,7 +76,7 @@ const Navbar = () => {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
           >
             <svg
               className="w-6 h-6"
@@ -111,23 +111,23 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 px-4 pb-4"
+            className="md:hidden bg-white border-t border-slate-200 px-4 pb-4"
           >
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="block py-2 text-sm text-gray-600 hover:text-indigo-600"
+                className="block py-2 text-sm text-slate-600 hover:text-slate-950"
               >
                 {link.label}
               </a>
             ))}
-            <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-gray-100">
+            <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-slate-100">
               {isAuthenticated ? (
                 <Link
                   to={getDashboardLink()}
-                  className="text-center bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-lg"
+                  className="text-center bg-slate-950 text-white text-sm font-semibold px-4 py-2 rounded-lg"
                 >
                   Dashboard
                 </Link>
@@ -135,13 +135,13 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/login"
-                    className="text-center text-sm text-gray-700 py-2"
+                    className="text-center text-sm text-slate-700 py-2"
                   >
                     Log in
                   </Link>
                   <Link
                     to="/register"
-                    className="text-center bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-lg"
+                    className="text-center bg-slate-950 text-white text-sm font-semibold px-4 py-2 rounded-lg"
                   >
                     Get Started
                   </Link>
