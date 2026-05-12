@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import AppIcon from "./AppIcon";
 
 const colorMap = {
   indigo: "bg-indigo-50 text-indigo-600 ring-indigo-100",
@@ -26,14 +27,14 @@ const StatCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-start gap-4"
+      className="bg-white/90 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/60 p-6 flex items-start gap-4 hover:-translate-y-0.5 hover:shadow-md transition-all"
     >
-      <div className={`p-3 rounded-xl ring-1 ${colorClasses}`}>
-        <span className="text-xl">{icon}</span>
+      <div className={`p-3 rounded-2xl ring-1 ${colorClasses}`}>
+        <AppIcon name={icon} className="w-6 h-6" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-2xl font-bold text-gray-800 leading-tight">{value ?? "—"}</p>
-        <p className="text-sm text-gray-500 mt-0.5">{label}</p>
+        <p className="text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">{value ?? "—"}</p>
+        <p className="text-sm font-medium text-slate-500 mt-1">{label}</p>
         {sub && <p className="text-xs text-gray-400 mt-1">{sub}</p>}
         {trend !== undefined && (
           <p

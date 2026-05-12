@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import AppIcon from "../components/common/AppIcon";
 
 const ChildLayout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -9,10 +10,10 @@ const ChildLayout = ({ children }) => {
   const { childId } = useParams();
 
   const navItems = [
-    { label: "🏠 Home", path: `/child/${childId}/dashboard` },
-    { label: "🎯 Missions", path: `/child/${childId}/missions` },
-    { label: "🎁 Rewards", path: `/child/${childId}/rewards` },
-    { label: "🏅 Badges", path: `/child/${childId}/badges` },
+    { label: "Home", icon: "home", path: `/child/${childId}/dashboard` },
+    { label: "Missions", icon: "target", path: `/child/${childId}/missions` },
+    { label: "Rewards", icon: "gift", path: `/child/${childId}/rewards` },
+    { label: "Badges", icon: "badge", path: `/child/${childId}/badges` },
   ];
 
   const handleLogout = async () => {
@@ -28,7 +29,9 @@ const ChildLayout = ({ children }) => {
           {/* Logo + Back */}
           <div className="flex items-center gap-3">
             <Link to={`/child/${childId}/dashboard`} className="text-2xl font-bold text-white flex items-center gap-2">
-              <span>🌟</span>
+              <span className="w-9 h-9 rounded-2xl bg-white/20 text-white flex items-center justify-center ring-1 ring-white/20">
+                <AppIcon name="sparkle" className="w-5 h-5" />
+              </span>
               <span className="hidden sm:block">Kidzvi</span>
             </Link>
           </div>
@@ -72,7 +75,10 @@ const ChildLayout = ({ children }) => {
                         : "text-white/80 hover:text-white hover:bg-white/20"
                     }`}
                 >
-                  {item.label}
+                  <span className="inline-flex items-center gap-2">
+                    <AppIcon name={item.icon} className="w-4 h-4" />
+                    {item.label}
+                  </span>
                 </Link>
               );
             })}

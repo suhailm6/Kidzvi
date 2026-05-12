@@ -3,17 +3,18 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { getChildren } from "../api/parentApi";
+import AppIcon from "../components/common/AppIcon";
 
 const navItems = [
-  { label: "Dashboard", path: "/parent/dashboard", icon: "🏠" },
-  { label: "Children", path: "/parent/children", icon: "👦" },
-  { label: "Activities", path: "/parent/activities", icon: "📋" },
-  { label: "Assign", path: "/parent/assign-activities", icon: "📌" },
-  { label: "Approvals", path: "/parent/approvals", icon: "✅" },
-  { label: "Rewards", path: "/parent/rewards", icon: "🎁" },
-  { label: "Reward Claims", path: "/parent/reward-claims", icon: "🏆" },
-  { label: "Reports", path: "/parent/reports", icon: "📊" },
-  { label: "Settings", path: "/parent/settings", icon: "⚙️" },
+  { label: "Dashboard", path: "/parent/dashboard", icon: "home" },
+  { label: "Children", path: "/parent/children", icon: "child" },
+  { label: "Activities", path: "/parent/activities", icon: "list" },
+  { label: "Assign", path: "/parent/assign-activities", icon: "pin" },
+  { label: "Approvals", path: "/parent/approvals", icon: "check" },
+  { label: "Rewards", path: "/parent/rewards", icon: "gift" },
+  { label: "Reward Claims", path: "/parent/reward-claims", icon: "trophy" },
+  { label: "Reports", path: "/parent/reports", icon: "chart" },
+  { label: "Settings", path: "/parent/settings", icon: "settings" },
 ];
 
 const SidebarNav = ({
@@ -28,7 +29,9 @@ const SidebarNav = ({
   <div className="flex flex-col h-full">
     {/* Logo */}
     <div className="flex items-center gap-3 px-6 py-5 border-b border-indigo-800">
-      <span className="text-2xl">🌟</span>
+      <span className="w-9 h-9 rounded-2xl bg-white text-indigo-700 flex items-center justify-center">
+        <AppIcon name="sparkle" className="w-5 h-5" />
+      </span>
       <span className="text-xl font-bold text-white">Kidzvi</span>
     </div>
 
@@ -70,7 +73,7 @@ const SidebarNav = ({
                   : "text-indigo-200 hover:bg-indigo-700 hover:text-white"
               }`}
           >
-            <span className="text-base">{item.icon}</span>
+            <AppIcon name={item.icon} className="w-4 h-4" />
             {item.label}
           </Link>
         );
@@ -94,19 +97,7 @@ const SidebarNav = ({
         onClick={handleLogout}
         className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-indigo-800 hover:bg-red-600 text-indigo-200 hover:text-white text-sm transition-colors"
       >
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-          />
-        </svg>
+        <AppIcon name="logout" className="w-4 h-4" />
         Log Out
       </button>
     </div>

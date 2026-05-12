@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Kidzvi - MERN Full-Stack Child Activity, Reward Monitoring & Parental Control Platform",
   "scripts": {
-    "dev:server": "cd server && npm run dev",
-    "dev:client": "cd client && npm run dev",
-    "install:all": "cd server && npm install && cd ../client && npm install",
-    "start:server": "cd server && npm start",
-    "start:client": "cd client && npm run preview"
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run preview"
   },
   "author": "",
   "license": "ISC"

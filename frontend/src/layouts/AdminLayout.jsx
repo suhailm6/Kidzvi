@@ -2,18 +2,21 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import AppIcon from "../components/common/AppIcon";
 
 const navItems = [
-  { label: "Dashboard", path: "/admin/dashboard", icon: "📊" },
-  { label: "Activities", path: "/admin/activities", icon: "📋" },
-  { label: "Users", path: "/admin/users", icon: "👥" },
+  { label: "Dashboard", path: "/admin/dashboard", icon: "chart" },
+  { label: "Activities", path: "/admin/activities", icon: "list" },
+  { label: "Users", path: "/admin/users", icon: "users" },
 ];
 
 const AdminSidebar = ({ location, user, handleLogout, setSidebarOpen }) => (
   <div className="flex flex-col h-full">
     <div className="px-6 py-5 border-b border-gray-700">
       <div className="flex items-center gap-2">
-        <span className="text-2xl">🌟</span>
+        <span className="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center">
+          <AppIcon name="shield" className="w-5 h-5" />
+        </span>
         <div>
           <p className="text-lg font-bold text-white">Kidzvi</p>
           <p className="text-xs text-gray-400">Admin Panel</p>
@@ -36,7 +39,7 @@ const AdminSidebar = ({ location, user, handleLogout, setSidebarOpen }) => (
                   : "text-gray-300 hover:bg-gray-700 hover:text-white"
               }`}
           >
-            <span>{item.icon}</span>
+            <AppIcon name={item.icon} className="w-4 h-4" />
             {item.label}
           </Link>
         );
@@ -59,7 +62,10 @@ const AdminSidebar = ({ location, user, handleLogout, setSidebarOpen }) => (
         onClick={handleLogout}
         className="w-full text-sm text-gray-400 hover:text-red-400 transition-colors text-left px-2 py-1"
       >
-        → Log Out
+        <span className="inline-flex items-center gap-2">
+          <AppIcon name="logout" className="w-4 h-4" />
+          Log Out
+        </span>
       </button>
     </div>
   </div>

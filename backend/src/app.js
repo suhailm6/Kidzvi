@@ -105,9 +105,9 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
  * Uses "dev" format in development, "combined" in production.
  */
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+  app.use(morgan("dev", { skip: (req) => req.path === "/performance" }));
 } else {
-  app.use(morgan("combined"));
+  app.use(morgan("combined", { skip: (req) => req.path === "/performance" }));
 }
 
 // ─── Health Check ──────────────────────────────────────────────────────────────

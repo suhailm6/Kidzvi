@@ -90,7 +90,7 @@ Key backend features:
 
 ```text
 GP/
-├── server/
+├── backend/
 │   ├── src/
 │   │   ├── config/              # Database configuration
 │   │   ├── controllers/         # Backend business logic
@@ -103,7 +103,7 @@ GP/
 │   ├── package.json
 │   └── .env.example
 │
-├── client/
+├── frontend/
 │   ├── src/
 │   │   ├── api/                 # Axios API functions
 │   │   ├── components/          # Shared UI components
@@ -135,17 +135,17 @@ Important backend files:
 
 | File | Purpose |
 |---|---|
-| `server/server.js` | Starts the Express server and connects MongoDB |
-| `server/src/app.js` | Registers middleware, routes, health checks and error handlers |
-| `server/src/config/db.js` | Handles MongoDB connection |
-| `server/src/middleware/authMiddleware.js` | Verifies JWT token and attaches current user |
-| `server/src/middleware/roleMiddleware.js` | Restricts routes by user role |
-| `server/src/middleware/validateRequest.js` | Returns validation errors from express-validator |
-| `server/src/controllers/authController.js` | Registration, login, Google login and profile logic |
-| `server/src/controllers/activityController.js` | Activity CRUD, assignment and child submission logic |
-| `server/src/controllers/approvalController.js` | Parent approval and rejection workflow |
-| `server/src/controllers/rewardController.js` | Reward and reward claim workflow |
-| `server/src/controllers/reportController.js` | Reports and analytics endpoints |
+| `backend/server.js` | Starts the Express server and connects MongoDB |
+| `backend/src/app.js` | Registers middleware, routes, health checks and error handlers |
+| `backend/src/config/db.js` | Handles MongoDB connection |
+| `backend/src/middleware/authMiddleware.js` | Verifies JWT token and attaches current user |
+| `backend/src/middleware/roleMiddleware.js` | Restricts routes by user role |
+| `backend/src/middleware/validateRequest.js` | Returns validation errors from express-validator |
+| `backend/src/controllers/authController.js` | Registration, login, Google login and profile logic |
+| `backend/src/controllers/activityController.js` | Activity CRUD, assignment and child submission logic |
+| `backend/src/controllers/approvalController.js` | Parent approval and rejection workflow |
+| `backend/src/controllers/rewardController.js` | Reward and reward claim workflow |
+| `backend/src/controllers/reportController.js` | Reports and analytics endpoints |
 
 ## Database Models
 
@@ -279,21 +279,21 @@ Current child access is parent-managed. Children do not currently have independe
 ### Install Backend Dependencies
 
 ```bash
-cd server
+cd backend
 npm install
 ```
 
 ### Install Frontend Dependencies
 
 ```bash
-cd client
+cd frontend
 npm install
 ```
 
 ### Start Backend
 
 ```bash
-cd server
+cd backend
 npm run dev
 ```
 
@@ -306,7 +306,7 @@ http://localhost:5000
 ### Start Frontend
 
 ```bash
-cd client
+cd frontend
 npm run dev
 ```
 
@@ -318,7 +318,7 @@ http://localhost:5173
 
 ## Environment Variables
 
-### Backend - `server/.env`
+### Backend - `backend/.env`
 
 ```env
 PORT=5000
@@ -330,7 +330,7 @@ CLIENT_URL=http://localhost:5173
 GOOGLE_CLIENT_ID=your_google_oauth_web_client_id.apps.googleusercontent.com
 ```
 
-### Frontend - `client/.env`
+### Frontend - `frontend/.env`
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
@@ -404,7 +404,7 @@ The child can view assigned tasks at:
 Frontend checks:
 
 ```bash
-cd client
+cd frontend
 npm run lint
 npm run build
 ```
@@ -412,7 +412,7 @@ npm run build
 Backend syntax/load check:
 
 ```bash
-cd server
+cd backend
 node -e "require('./src/app'); console.log('server app loaded')"
 ```
 

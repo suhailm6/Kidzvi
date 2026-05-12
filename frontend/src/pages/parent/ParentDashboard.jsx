@@ -14,30 +14,31 @@ import { getDashboard } from "../../api/parentApi";
 import StatCard from "../../components/common/StatCard";
 import Card from "../../components/common/Card";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import AppIcon from "../../components/common/AppIcon";
 import { formatDate } from "../../utils/helpers";
 
 const QUICK_LINKS = [
   {
     label: "Add Child",
-    icon: "👦",
+    icon: "child",
     path: "/parent/children",
     color: "bg-indigo-50 hover:bg-indigo-100 text-indigo-700",
   },
   {
     label: "Assign Activity",
-    icon: "📌",
+    icon: "pin",
     path: "/parent/assign-activities",
     color: "bg-purple-50 hover:bg-purple-100 text-purple-700",
   },
   {
     label: "Review Approvals",
-    icon: "✅",
+    icon: "check",
     path: "/parent/approvals",
     color: "bg-green-50 hover:bg-green-100 text-green-700",
   },
   {
     label: "Manage Rewards",
-    icon: "🎁",
+    icon: "gift",
     path: "/parent/rewards",
     color: "bg-yellow-50 hover:bg-yellow-100 text-yellow-700",
   },
@@ -60,7 +61,9 @@ const ParentDashboard = () => {
   if (error) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-400 text-4xl mb-4">⚠️</p>
+        <div className="mx-auto mb-4 w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
+          <AppIcon name="clock" className="w-6 h-6" />
+        </div>
         <p className="text-gray-600">{error}</p>
       </div>
     );
@@ -68,28 +71,28 @@ const ParentDashboard = () => {
 
   const stats = [
     {
-      icon: "👦",
+      icon: "child",
       label: "Total Children",
       value: data?.totalChildren ?? 0,
       color: "indigo",
       delay: 0,
     },
     {
-      icon: "🎯",
+      icon: "target",
       label: "Activities This Week",
       value: data?.activitiesThisWeek ?? 0,
       color: "green",
       delay: 0.1,
     },
     {
-      icon: "⏳",
+      icon: "clock",
       label: "Pending Approvals",
       value: data?.pendingApprovals ?? 0,
       color: "yellow",
       delay: 0.2,
     },
     {
-      icon: "🏆",
+      icon: "trophy",
       label: "Reward Requests",
       value: data?.pendingRewardClaims ?? 0,
       color: "purple",
@@ -110,12 +113,15 @@ const ParentDashboard = () => {
   const recentActivity = data?.recentActivity || [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+      <div className="relative overflow-hidden rounded-[2rem] bg-slate-950 p-6 sm:p-8 text-white shadow-xl shadow-slate-300/40">
+        <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-indigo-500/30 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-cyan-400/20 blur-3xl" />
+        <div className="relative">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-indigo-200">Parent workspace</p>
+          <h1 className="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight">Family Dashboard</h1>
+          <p className="text-sm text-slate-300 mt-2 max-w-2xl">
             {formatDate(new Date())} — Here's what's happening with your family
           </p>
         </div>
@@ -134,9 +140,9 @@ const ParentDashboard = () => {
           <Link
             key={link.path}
             to={link.path}
-            className={`${link.color} rounded-xl p-4 flex flex-col items-center gap-2 transition-colors text-center`}
+            className={`${link.color} rounded-2xl p-4 flex flex-col items-center gap-3 transition-all text-center hover:-translate-y-0.5 shadow-sm`}
           >
-            <span className="text-2xl">{link.icon}</span>
+            <AppIcon name={link.icon} className="w-6 h-6" />
             <span className="text-xs font-semibold">{link.label}</span>
           </Link>
         ))}
@@ -214,7 +220,9 @@ const ParentDashboard = () => {
             </div>
           ) : (
             <div className="text-center py-6">
-              <p className="text-3xl mb-3">👦</p>
+              <div className="mx-auto mb-3 w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <AppIcon name="child" className="w-6 h-6" />
+              </div>
               <p className="text-gray-500 text-sm">No children yet.</p>
               <Link
                 to="/parent/children"

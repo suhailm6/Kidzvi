@@ -4,6 +4,7 @@ import api from "../../api/axiosConfig";
 import StatCard from "../../components/common/StatCard";
 import Card from "../../components/common/Card";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import AppIcon from "../../components/common/AppIcon";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -26,19 +27,28 @@ const AdminDashboard = () => {
   }, []);
 
   const statCards = [
-    { icon: "👥", label: "Total Users", value: stats?.totalUsers ?? 0, color: "indigo" },
-    { icon: "👦", label: "Total Children", value: stats?.totalChildren ?? 0, color: "purple" },
-    { icon: "📋", label: "Total Activities", value: stats?.totalActivities ?? 0, color: "blue" },
-    { icon: "✅", label: "Total Completions", value: stats?.totalCompletions ?? 0, color: "green" },
+    { icon: "users", label: "Total Users", value: stats?.totalUsers ?? 0, color: "indigo" },
+    { icon: "child", label: "Total Children", value: stats?.totalChildren ?? 0, color: "purple" },
+    { icon: "list", label: "Total Activities", value: stats?.totalActivities ?? 0, color: "blue" },
+    { icon: "check", label: "Total Completions", value: stats?.totalCompletions ?? 0, color: "green" },
   ];
 
   if (loading) return <LoadingSpinner text="Loading admin stats..." />;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Platform overview and statistics</p>
+    <div className="space-y-7">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-6 sm:p-8 text-white shadow-xl shadow-slate-300/40">
+        <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
+        <div className="relative flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-white/10 ring-1 ring-white/15 flex items-center justify-center text-indigo-100">
+            <AppIcon name="chart" className="w-7 h-7" />
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-indigo-200">Admin control center</p>
+            <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight">Platform Overview</h1>
+            <p className="text-sm text-slate-300 mt-1">Monitor users, children, activities and completions.</p>
+          </div>
+        </div>
       </div>
 
       {/* Stats */}
@@ -101,7 +111,7 @@ const AdminDashboard = () => {
                 <div key={act._id || act.id} className="py-3">
                   <p className="text-sm font-medium text-gray-800">{act.title}</p>
                   <p className="text-xs text-gray-400">
-                    {act.category?.replace(/_/g, " ")} · {act.ageGroup} · ⭐ {act.pointsValue} pts
+                    {act.category?.replace(/_/g, " ")} · {act.ageGroup} · {act.pointsValue} pts
                   </p>
                 </div>
               ))}
@@ -115,14 +125,16 @@ const AdminDashboard = () => {
         <div className="flex flex-wrap gap-3">
           <Link
             to="/admin/activities"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
           >
-            + Add Activity
+            <AppIcon name="list" className="w-4 h-4" />
+            Add Activity
           </Link>
           <Link
             to="/admin/users"
-            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl transition-colors"
           >
+            <AppIcon name="users" className="w-4 h-4" />
             Manage Users
           </Link>
         </div>
